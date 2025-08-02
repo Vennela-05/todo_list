@@ -1,0 +1,154 @@
+{% comment %} {% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="box">
+        <h2>Login</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+    </div>
+</body>
+</html> {% endcomment %}
+
+
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+    <h2 class="text-3xl font-bold text-center mb-6">Login</h2>
+
+    <form>
+      <!-- Username -->
+      <div class="mb-4">
+        <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+        <input type="text" id="username" placeholder="Enter your username"
+          class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400" />
+      </div>
+
+      <!-- Password -->
+      <div class="mb-2">
+        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+        <input type="password" id="password" placeholder="Enter your password"
+          class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400" />
+      </div>
+
+      <!-- Show password checkbox -->
+      <div class="flex items-center space-x-2 mb-6">
+        <input type="checkbox" id="show-password" class="form-checkbox h-4 w-4 text-purple-600" />
+        <label for="show-password" class="text-sm text-gray-600">Show password</label>
+      </div>
+
+      <!-- Login button -->
+      <button type="submit"
+        class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl shadow-md transition duration-300">
+        Login
+      </button>
+    </form>
+
+    <!-- Register link -->
+    <p class="text-center text-sm text-gray-600 mt-6">
+      Don't have an account?
+      <a href="/register" class="text-purple-600 hover:underline font-medium">Register</a>
+    </p>
+  </div>
+
+  <script>
+    // Optional: toggle password visibility
+    document.getElementById("show-password").addEventListener("change", function () {
+      const pwd = document.getElementById("password");
+      pwd.type = this.checked ? "text" : "password";
+    });
+  </script>
+</body>
+</html> {% endcomment %}
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md animate-fade-in">
+    <h2 class="text-3xl font-bold text-center mb-6">Login</h2>
+
+    {% if error %}
+      <p class="text-red-500 text-sm text-center mb-4">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+      
+      <!-- Username -->
+      <div class="mb-4">
+        <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+        <input type="text" name="username" id="username" placeholder="Enter your username"
+          class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400" required />
+      </div>
+
+      <!-- Password -->
+      <div class="mb-2">
+        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+        <input type="password" name="password" id="password" placeholder="Enter your password"
+          class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400" required />
+      </div>
+
+      <!-- Show password checkbox -->
+      <div class="flex items-center space-x-2 mb-6">
+        <input type="checkbox" id="show-password" class="form-checkbox h-4 w-4 text-purple-600" />
+        <label for="show-password" class="text-sm text-gray-600">Show password</label>
+      </div>
+
+      <!-- Login button -->
+      <button type="submit"
+        class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl shadow-md transition duration-300">
+        Login
+      </button>
+    </form>
+
+    <!-- Register link -->
+    <p class="text-center text-sm text-gray-600 mt-6">
+      Don't have an account?
+      <a href="{% url 'register' %}" class="text-purple-600 hover:underline font-medium">Register</a>
+    </p>
+  </div>
+
+  <!-- Animation + Show Password Script -->
+  <script>
+    document.getElementById("show-password").addEventListener("change", function () {
+      const pwd = document.getElementById("password");
+      pwd.type = this.checked ? "text" : "password";
+    });
+  </script>
+
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+  </style>
+</body>
+</html>

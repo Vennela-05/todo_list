@@ -1,0 +1,101 @@
+{% comment %} {% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>My To-Do List</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="title" placeholder="Enter task..." required>
+            <button>Add</button>
+        </form>
+
+        <ul>
+            {% for task in tasks %}
+                <li class="{% if task.completed %}done{% endif %}">
+                    {{ task.title }}
+                    {% if not task.completed %}
+                        <a href="{% url 'complete_task' task.id %}">✔</a>
+                    {% endif %}
+                    <a href="{% url 'delete_task' task.id %}">🗑</a>
+                </li>
+            {% empty %}
+                <li>No tasks yet!</li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'logout' %}" class="logout">Logout</a>
+    </div>
+</body>
+</html> {% endcomment %}
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To-Do List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body class="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-2xl">
+    <h1 class="text-3xl font-bold text-center text-purple-700 mb-6">🎯 My To-Do List</h1>
+
+    <form method="POST" class="space-y-4 mb-6">
+      {% csrf_token %}
+      <div class="flex flex-col md:flex-row items-center gap-4">
+        <input type="text" name="title" placeholder="Task title..." required
+          class="flex-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400" />
+        
+        <select name="category" class="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400">
+          <option value="📝">Note</option>
+          <option value="💼">Work</option>
+          <option value="🎓">Study</option>
+          <option value="🛒">Shopping</option>
+          <option value="💪">Fitness</option>
+        </select>
+
+        <input type="date" name="due_date"
+          class="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400" />
+        
+        <button type="submit"
+          class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md shadow-md transition duration-300">
+          Add
+        </button>
+      </div>
+    </form>
+
+    <ul class="space-y-4">
+      {% for task in tasks %}
+        <li class="flex justify-between items-center p-4 rounded-lg border {% if task.completed %}bg-green-100 line-through text-gray-500{% else %}bg-gray-50{% endif %}">
+          <div>
+            <span class="text-lg">{{ task.title }}</span>
+            {% if task.category %}<span class="ml-2">{{ task.category }}</span>{% endif %}
+            {% if task.due_date %}<span class="ml-2 text-sm text-gray-500">⏳ {{ task.due_date }}</span>{% endif %}
+          </div>
+          <div class="space-x-3 text-lg">
+            {% if task.completed %}
+              <a href="{% url 'complete_task' task.id %}" title="Undo" class="text-blue-500 hover:text-blue-700"><i class="fas fa-rotate-left"></i></a>
+            {% else %}
+              <a href="{% url 'complete_task' task.id %}" title="Mark complete" class="text-green-600 hover:text-green-800"><i class="fas fa-check-circle"></i></a>
+            {% endif %}
+            <a href="{% url 'delete_task' task.id %}" title="Delete" class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></a>
+          </div>
+        </li>
+      {% empty %}
+        <li class="text-center text-gray-600">No tasks yet!</li>
+      {% endfor %}
+    </ul>
+
+    <div class="text-center mt-6">
+      <a href="{% url 'logout' %}" class="text-purple-600 hover:underline font-medium">🚪 Logout</a>
+    </div>
+  </div>
+</body>
+</html>
